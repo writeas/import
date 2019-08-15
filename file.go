@@ -75,7 +75,7 @@ func FromFile(path string) (*writeas.PostParams, error) {
 		return nil, err
 	}
 	if len(b) == 0 {
-		return nil, fmt.Errorf("file was empty")
+		return nil, ErrEmptyFile
 	}
 
 	// TODO: should title be the filename when no title was extracted?

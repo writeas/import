@@ -257,7 +257,7 @@ func TestFromFileEmptyBody(t *testing.T) {
 	}()
 
 	post, err := FromFile(testFile)
-	if err == nil {
+	if err != ErrEmptyFile {
 		t.Fatalf("error was nil but should error with empty file")
 	}
 	if post != nil {
