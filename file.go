@@ -66,14 +66,18 @@ func fromDirectory(path, pattern string) ([]*writeas.PostParams, error) {
 
 // FromFile reads in a file from path and returns the parsed post and an error
 // if any. The title will be extracted from the first markdown level 1 header.
-//
-// Warning: FromFile will read any file provided, however only plain text or
-// markdown will be parsed.
 func FromFile(path string) (*writeas.PostParams, error) {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
+
+	return fromBytes(b)
+}
+
+// Warning: fromBytes will read any file provided
+// TODO: detect content types
+func fromBytes(b []byte) (*writeas.PostParams, error) {
 	if len(b) == 0 {
 		return nil, ErrEmptyFile
 	}
