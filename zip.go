@@ -7,6 +7,12 @@ import (
 	"github.com/writeas/go-writeas"
 )
 
+// ZipCollections holds a map of collections of post params.
+// The keys are the collection name, parsed from the directory structure.
+// Draft posts are included under the key drafts, those that were top level
+// files in the archive.
+type ZipCollections map[string][]*writeas.PostParams
+
 // ZipFunc should return a pointer to a writeas.PostParams for any zip.File
 // that meets criteria. It is used in FromZipFunc to filter the archives files.
 //
@@ -24,8 +30,8 @@ func FromZip(archive string) ([]*writeas.PostParams, error) {
 //
 // The map is of [string][]*writeas.PostParams where the string key is the name
 // of the directory. The top level directory posts will be 'drafts'.
-func FromZipDirs(archive string) (map[string][]*writeas.PostParams, error) {
-	out := make(map[string][]*writeas.PostParams)
+func FromZipDirs(archive string) (ZipCollections, error) {
+	out := make(ZipCollections)
 	a, err := zip.OpenReader(archive)
 	if err != nil {
 		return nil, err
