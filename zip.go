@@ -1,0 +1,106 @@
+package wfimport
+
+import (
+	"archive/zip"
+	"path/filepath"
+
+	"github.com/writeas/go-writeas"
+)
+
+// ZipFunc should return a pointer to a writeas.PostParams for any zip.File
+// that meets criteria. It is used in FromZipFunc to filter the archives files.
+//
+// For an example, see the file zip_funcs.go
+type ZipFunc func(f *zip.File) (*writeas.PostParams, error)
+
+// FromZip opens a zip archive and returns a slice of *writeas.PostParams
+// and an error if any. It only reads the top level of the archive tree.
+func FromZip(archive string) ([]*writeas.PostParams, error) {
+	return FromZipByFunc(archive, topLevelZipFunc)
+}
+
+// FromZipDirs opens a zip archive and returns a map of post collections
+// and an error if any.
+//
+// The map is of [string][]*writeas.PostParams where the string key is the name
+// of the directory. The top level directory posts will be 'drafts'.
+func FromZipDirs(archive string) (map[string][]*writeas.PostParams, error) {
+	out := make(map[string][]*writeas.PostParams)
+	a, err := zip.OpenReader(archive)
+	if err != nil {
+		return nil, err
+	}
+	defer a.Close()
+
+	drafts := []*writeas.PostParams{}
+	dirs := make(map[string][]*zip.File)
+	for _, file := range a.File {
+		dir, _ := filepath.Split(file.Name)
+		if dir != "" {
+			dir = filepath.Dir(dir)
+			if dirs[dir] == nil {
+				dirs[dir] = []*zip.File{}
+			}
+			dirs[dir] = append(dirs[dir], file)
+		} else {
+			post, err := topLevelZipFunc(file)
+			if err == ErrEmptyFile {
+				continue
+			} else if err != nil {
+				return nil, err
+			}
+			drafts = append(drafts, post)
+		}
+	}
+	out["drafts"] = drafts
+	for dirName, dirList := range dirs {
+		if out[dirName] == nil {
+			out[dirName] = []*writeas.PostParams{}
+		}
+		for _, file := range dirList {
+			post, err := topLevelZipFunc(file)
+			if err == ErrEmptyFile {
+				continue
+			} else if err != nil {
+				return nil, err
+			}
+			out[dirName] = append(out[dirName], post)
+		}
+	}
+
+	return out, nil
+}
+
+// TODO: (robjloranger)
+// FromZipDeep opens a zip archive and returns a slice of *writeas.PostParams
+// and an error if any. It reads all files in the zip, ignoring any directory
+// structure.
+
+// FromZipByFunc opens an archive and processes the contents according to the
+// passed ZipFunc. It returns a slice of writeas.PostParams and any error.
+func FromZipByFunc(archive string, f ZipFunc) ([]*writeas.PostParams, error) {
+	a, err := zip.OpenReader(archive)
+	if err != nil {
+		return nil, err
+	}
+	defer a.Close()
+
+	return postsFromZipFiles(a.File, f)
+}
+
+func postsFromZipFiles(files []*zip.File, f ZipFunc) ([]*writeas.PostParams, error) {
+	posts := []*writeas.PostParams{}
+	for _, file := range files {
+		post, err := f(file)
+		if err == ErrEmptyFile {
+			continue
+		} else if err != nil {
+			return nil, err
+		}
+		posts = append(posts, post)
+	}
+	if len(posts) > 0 {
+		return posts, nil
+	}
+	return nil, nil
+}
