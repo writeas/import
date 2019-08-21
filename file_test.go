@@ -159,6 +159,9 @@ func TestFromDirectoryEmptyDir(t *testing.T) {
 	if err == nil {
 		t.Fatal("error is nil but directory was empty")
 	}
+	if err != ErrEmptyDir {
+		t.Fatalf("wrong error returned:\ngot %v\nexpecting%v", err, ErrEmptyDir)
+	}
 	if posts != nil {
 		t.Fatal("posts returned but should be nil")
 	}

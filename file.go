@@ -1,7 +1,6 @@
 package wfimport
 
 import (
-	"fmt"
 	"io/ioutil"
 	"path/filepath"
 	"regexp"
@@ -42,7 +41,7 @@ func fromDirectory(path, pattern string) ([]*writeas.PostParams, error) {
 		return nil, err
 	}
 	if len(list) == 0 {
-		return nil, fmt.Errorf("directory was empty")
+		return nil, ErrEmptyDir
 	}
 
 	var postErrors error
