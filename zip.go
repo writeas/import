@@ -22,7 +22,7 @@ type ZipFunc func(f *zip.File) (*writeas.PostParams, error)
 // FromZip opens a zip archive and returns a slice of *writeas.PostParams
 // and an error if any. It only reads the top level of the archive tree.
 func FromZip(archive string) ([]*writeas.PostParams, error) {
-	return FromZipByFunc(archive, topLevelZipFunc)
+	return FromZipByFunc(archive, TopLevelZipFunc)
 }
 
 // FromZipByFunc opens an archive and filters the contents according to the
@@ -43,7 +43,7 @@ func FromZipByFunc(archive string, f ZipFunc) ([]*writeas.PostParams, error) {
 // The map is of [string][]*writeas.PostParams where the string key is the name
 // of the directory. The top level directory posts will be 'drafts'.
 func FromZipDirs(archive string) (ZipCollections, error) {
-	return FromZipDirsByFunc(archive, topLevelZipFunc)
+	return FromZipDirsByFunc(archive, TopLevelZipFunc)
 }
 
 // FromZipDirsByFunc works as FromZipDirs but filtering files through f.

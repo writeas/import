@@ -7,9 +7,12 @@ import (
 	"github.com/writeas/go-writeas"
 )
 
-// topLevelZipFunc return a poiter to a writeas.PostParams for any parseable
+// TopLevelZipFunc return a poiter to a writeas.PostParams for any parseable
 // zip.File that is not a directory. It does not traverse children.
-func topLevelZipFunc(f *zip.File) (*writeas.PostParams, error) {
+//
+// This is an example of a ZipFunc that can be used to filter files parse from
+// a zip archive.
+func TopLevelZipFunc(f *zip.File) (*writeas.PostParams, error) {
 	if !f.FileInfo().IsDir() {
 		rc, err := f.Open()
 		if err != nil {
