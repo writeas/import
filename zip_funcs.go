@@ -26,11 +26,13 @@ func TopLevelZipFunc(f *zip.File) (*writeas.PostParams, error) {
 		if err != nil {
 			return nil, err
 		}
-		post, err := fromBytes(b)
+		p, err := fromBytes(b)
 		if err != nil {
 			return nil, err
 		}
-		return post, nil
+		p.Created = &f.Modified
+
+		return p, nil
 	}
 	return nil, nil
 }

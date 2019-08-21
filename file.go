@@ -72,7 +72,19 @@ func FromFile(path string) (*writeas.PostParams, error) {
 		return nil, err
 	}
 
-	return fromBytes(b)
+	info, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+
+	p, err := fromBytes(b)
+	if err != nil {
+		return nil, err
+	}
+	created := info.ModTime()
+	p.Created = &created
+
+	return p, nil
 }
 
 // Warning: fromBytes will read any file provided
