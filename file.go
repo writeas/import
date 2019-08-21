@@ -50,7 +50,7 @@ func fromDirectory(path, pattern string) ([]*writeas.PostParams, error) {
 	for _, f := range list {
 		if !f.IsDir() {
 			filename := f.Name()
-			if rx.MatchString(filename) && (strings.HasSuffix(filename, ".txt") || strings.HasSuffix(filename, ".md")) {
+			if rx.MatchString(filename) {
 				post, err := FromFile(filepath.Join(path, filename))
 				if err != nil {
 					postErrors = multierror.Append(postErrors, err)

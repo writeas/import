@@ -47,7 +47,7 @@ func TestFromDirectory(t *testing.T) {
 		t.Fatalf("failed to parse files from directory: %v", err)
 	}
 
-	numExpected := 2 // length of files minus any without extensions
+	numExpected := len(files)
 	numResults := len(posts)
 	if numResults != numExpected {
 		t.Fatalf("post count mismatch.\bgot: %d\nexpecting: %d", numResults, numExpected)
@@ -82,7 +82,7 @@ func TestFromDirectoryMatch(t *testing.T) {
 		t.Fatalf("failed to parse files from directory: %v", err)
 	}
 
-	numExpected := 1 // length of files matching expression
+	numExpected := 2 // length of files matching expression
 	numResults := len(posts)
 	if numResults != numExpected {
 		t.Fatalf("post count mismatch.\bgot: %d\nexpecting: %d", numResults, numExpected)
@@ -93,7 +93,7 @@ func TestFromDirectoryMatch(t *testing.T) {
 		t.Fatalf("failed to parse files from directory: %v", err)
 	}
 
-	numExpected = 2 // length of files matching expression
+	numExpected = 3 // length of files matching expression
 	numResults = len(posts)
 	if numResults != numExpected {
 		t.Fatalf("post count mismatch.\bgot: %d\nexpecting: %d", numResults, numExpected)
