@@ -4,7 +4,7 @@ import (
 	"archive/zip"
 	"bufio"
 
-	"github.com/writeas/go-writeas"
+	"github.com/writeas/go-writeas/v2"
 )
 
 // TopLevelZipFunc return a poiter to a writeas.PostParams for any parseable

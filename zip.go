@@ -4,7 +4,7 @@ import (
 	"archive/zip"
 	"path/filepath"
 
-	"github.com/writeas/go-writeas"
+	"github.com/writeas/go-writeas/v2"
 )
 
 const (

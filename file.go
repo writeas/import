@@ -2,12 +2,13 @@ package wfimport
 
 import (
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"regexp"
 	"strings"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/writeas/go-writeas"
+	"github.com/writeas/go-writeas/v2"
 )
 
 // FromDirectoryMatch reads all text and markdown files in path that match the

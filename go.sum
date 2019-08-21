@@ -6,5 +6,7 @@ github.com/hashicorp/go-multierror v1.0.0 h1:iVjPR7a6H0tWELX5NxNe7bYopibicUzc7uP
 github.com/hashicorp/go-multierror v1.0.0/go.mod h1:dHtQlpGsu+cZNNAkkCN/P3hoUDHhCYQXV3UM06sGGrk=
 github.com/writeas/go-writeas v1.1.0 h1:WHGm6wriBkxYAOGbvriXH8DlMUGOi6jhSZLUZKQ+4mQ=
 github.com/writeas/go-writeas v1.1.0/go.mod h1:oh9U1rWaiE0p3kzdKwwvOpNXgp0P0IELI7OLOwV4fkA=
+github.com/writeas/go-writeas/v2 v2.0.2 h1:akvdMg89U5oBJiCkBwOXljVLTqP354uN6qnG2oOMrbk=
+github.com/writeas/go-writeas/v2 v2.0.2/go.mod h1:9sjczQJKmru925fLzg0usrU1R1tE4vBmQtGnItUMR0M=
 github.com/writeas/impart v1.1.0 h1:nPnoO211VscNkp/gnzir5UwCDEvdHThL5uELU60NFSE=
 github.com/writeas/impart v1.1.0/go.mod h1:g0MpxdnTOHHrl+Ca/2oMXUHJ0PcRAEWtkCzYCJUXC9Y=
