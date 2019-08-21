@@ -7,6 +7,11 @@ import (
 	"github.com/writeas/go-writeas"
 )
 
+const (
+	// DraftsKey is the key for all parsed draft posts in a ZipCollections map
+	DraftsKey = "drafts"
+)
+
 // ZipCollections holds a map of collections of post params.
 // The keys are the collection name, parsed from the directory structure.
 // Draft posts are included under the key drafts, those that were top level
