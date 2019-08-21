@@ -96,7 +96,7 @@ func postsFromZipDirs(archive string, f ZipFunc) (ZipCollections, error) {
 			drafts = append(drafts, post)
 		}
 	}
-	out["drafts"] = drafts
+	out[DraftsKey] = drafts
 	for dirName, dirList := range dirs {
 		if out[dirName] == nil {
 			out[dirName] = []*writeas.PostParams{}

@@ -6,3 +6,8 @@
 // writefreely exports in zip or json.
 
 package wfimport
+
+const (
+	// DraftsKey is the key for all parsed draft posts in a ZipCollections map
+	DraftsKey = "drafts"
+)
