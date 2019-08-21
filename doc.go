@@ -1,6 +1,6 @@
 /*
 Package wfimport provides library functions for parsing and importing
-writefreely posts from various files.
+writefreely posts from various files. https://github.com/writeas/writefreely
 
 Status
 
@@ -11,7 +11,7 @@ writefreely exports in zip or json.
 About Posts
 
 In the context of this package a post is actually refering to a PostParams from
-github.com/writeas/go-writeas.
+https://github.com/writeas/go-writeas.
 
 	// PostParams holds values for creating or updating a post.
 	PostParams struct {
