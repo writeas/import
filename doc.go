@@ -10,7 +10,7 @@ writefreely exports in zip or json.
 
 About Posts
 
-In the context of this package a post is actually refering to a PostParams from
+In the context of this package a post is actually referring to a PostParams from
 https://github.com/writeas/go-writeas.
 
 	// PostParams holds values for creating or updating a post.
