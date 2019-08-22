@@ -65,7 +65,9 @@ func postsFromZipFiles(files []*zip.File, f ZipFunc) ([]*writeas.PostParams, err
 		} else if err != nil {
 			return nil, err
 		}
-		posts = append(posts, post)
+		if post != nil {
+			posts = append(posts, post)
+		}
 	}
 	if len(posts) > 0 {
 		return posts, nil
