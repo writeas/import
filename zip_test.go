@@ -42,6 +42,20 @@ func TestFromZip(t *testing.T) {
 	// easier comparison
 }
 
+func TestTextFileZipFunc(t *testing.T) {
+	a := getTestZip(t, files)
+	posts, err := FromZipByFunc(a, TextFileZipFunc)
+	if err != nil {
+		t.Fatalf("failed to get posts from archive: %v", err)
+	}
+	if posts == nil {
+		t.Fatal("Posts was nil, expecting posts returned")
+	}
+	if len(posts) != 2 { // should only be the number of files in top level, .txt
+		t.Fatalf("Post count mismatch: got %d but expected %d", len(posts), 2)
+	}
+}
+
 func TestFromZipDirs(t *testing.T) {
 	a := getTestZip(t, filesWDirs)
 	postMap, err := FromZipDirs(a)
