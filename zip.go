@@ -60,7 +60,7 @@ func postsFromZipFiles(files []*zip.File, f ZipFunc) ([]*writeas.PostParams, err
 	posts := []*writeas.PostParams{}
 	for _, file := range files {
 		post, err := f(file)
-		if err == ErrEmptyFile {
+		if err == ErrEmptyFile || err == ErrInvalidContentType {
 			continue
 		} else if err != nil {
 			return nil, err
@@ -95,7 +95,7 @@ func postsFromZipDirs(archive string, f ZipFunc) (ZipCollections, error) {
 			dirs[dir] = append(dirs[dir], file)
 		} else {
 			post, err := f(file)
-			if err == ErrEmptyFile {
+			if err == ErrEmptyFile || err == ErrInvalidContentType {
 				continue
 			} else if err != nil {
 				return nil, err
@@ -110,7 +110,7 @@ func postsFromZipDirs(archive string, f ZipFunc) (ZipCollections, error) {
 		}
 		for _, file := range dirList {
 			post, err := f(file)
-			if err == ErrEmptyFile {
+			if err == ErrEmptyFile || err == ErrInvalidContentType {
 				continue
 			} else if err != nil {
 				return nil, err
