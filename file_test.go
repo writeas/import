@@ -267,3 +267,42 @@ func TestFromFileEmptyBody(t *testing.T) {
 		t.Fatal("post was returned but should be nil")
 	}
 }
+
+func TestFromBytes(t *testing.T) {
+	tt := []struct {
+		Name  string
+		Bytes []byte
+		Error error
+	}{
+		{
+			Name:  "text file",
+			Bytes: []byte("This is just some text."),
+			Error: nil,
+		}, {
+			Name:  "markdown file",
+			Bytes: []byte("# header\n\nText and more text."),
+			Error: nil,
+		}, {
+			Name:  "jpeg image",
+			Bytes: []byte("\xFF\xD8\xFF"),
+			Error: ErrInvalidContentType,
+		},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.Name, func(t *testing.T) {
+			p, err := fromBytes(tc.Bytes)
+			if err != tc.Error {
+				t.Fatalf("got error %v but expected error %v", err, tc.Error)
+			}
+
+			if tc.Error == nil && p == nil {
+				t.Fatal("got back nil post and nil error")
+			}
+
+			if tc.Error == nil && p.Content == "" {
+				t.Fatal("got back empty content")
+			}
+		})
+	}
+}

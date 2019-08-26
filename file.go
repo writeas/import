@@ -2,6 +2,7 @@ package wfimport
 
 import (
 	"io/ioutil"
+	"net/http"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -87,14 +88,15 @@ func FromFile(path string) (*writeas.PostParams, error) {
 	return p, nil
 }
 
-// Warning: fromBytes will read any file provided
-// TODO: detect content types
 func fromBytes(b []byte) (*writeas.PostParams, error) {
 	if len(b) == 0 {
 		return nil, ErrEmptyFile
 	}
 
-	// TODO: should title be the filename when no title was extracted?
+	if contentType := http.DetectContentType(b); !strings.HasPrefix(contentType, "text/") {
+		return nil, ErrInvalidContentType
+	}
+
 	title, body := extractTitle(string(b))
 	post := writeas.PostParams{
 		Title:   title,
