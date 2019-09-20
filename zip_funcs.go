@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bufio"
 	"path/filepath"
+	"strings"
 
 	"github.com/writeas/go-writeas/v2"
 )
@@ -47,5 +48,22 @@ func openAndParse(f *zip.File) (*writeas.PostParams, error) {
 	}
 	p.Created = &f.Modified
 
+	p.ID, p.Slug, p.Collection = filenameParts(f.FileHeader.Name)
 	return p, nil
+}
+
+func filenameParts(filename string) (id, slug, coll string) {
+	filename = strings.TrimSuffix(filename, ".txt")
+	seg := strings.Split(filename, "/")
+	if len(seg) > 1 {
+		coll = seg[0]
+		filename = seg[1]
+	}
+	seg = strings.Split(filename, "_")
+	if len(seg) > 1 {
+		slug = seg[0]
+		filename = seg[1]
+	}
+	id = filename
+	return
 }
