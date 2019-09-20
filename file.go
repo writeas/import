@@ -73,8 +73,6 @@ func fromDirectory(path, pattern string) ([]*writeas.PostParams, error) {
 
 // FromFile reads in a file from path and returns the parsed post and an error
 // if any. The title will be extracted from the first markdown level 1 header.
-// TODO: consider using filenameParts to get ID, coll and slug. This would
-// produce unpredictable results with user created files however.
 func FromFile(path string) (*writeas.PostParams, error) {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
