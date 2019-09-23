@@ -24,7 +24,6 @@ func TestFromDirectory(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to create test file: %v", err)
 		}
-		defer f.Close()
 
 		if strings.HasSuffix(fn, ".md") {
 			_, err = f.WriteString(fmt.Sprintf("# a title\n%s", fn))
@@ -34,6 +33,7 @@ func TestFromDirectory(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to write test file contents: %v", err)
 		}
+		f.Close()
 	}
 	for _, dn := range dirs {
 		err := os.Mkdir(filepath.Join(testDir, dn), os.ModeDir)
@@ -69,12 +69,12 @@ func TestFromDirectoryMatch(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to create test file: %v", err)
 		}
-		defer f.Close()
 
 		_, err = f.WriteString(fn)
 		if err != nil {
 			t.Fatalf("failed to write test file contents: %v", err)
 		}
+		f.Close()
 	}
 
 	posts, err := FromDirectoryMatch(testDir, `\d+`)
@@ -182,7 +182,7 @@ func TestFromDirectoryErrors(t *testing.T) {
 		if err != nil {
 			t.Fatalf("failed to create test file: %v", err)
 		}
-		defer f.Close()
+		f.Close()
 	}
 	posts, err := FromDirectory(testDir)
 	if err == nil {
