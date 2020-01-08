@@ -1,3 +1,9 @@
+// Copyright © 2019-2020 A Bunch Tell LLC. and contributors.
+//
+// This is free software: you can redistribute it and/or modify
+// it under the terms of the Mozilla Public License, included
+// in the LICENSE file in this source code package.
+
 /*
 Package wfimport provides library functions for parsing and importing
 writefreely posts from various files. https://github.com/writeas/writefreely
