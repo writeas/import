@@ -32,6 +32,50 @@ var filesWDirs = fileList{
 	{"notes/test.txt", "test all the things"},
 }
 
+var filenames = []struct {
+	Name       string
+	Filename   string
+	Collection string
+	Slug       string
+	ID         string
+}{
+	{
+		Name:       "full filename",
+		Filename:   "rob/ubuntu-next_839ruu389ru9.txt",
+		Collection: "rob",
+		Slug:       "ubuntu-next",
+		ID:         "839ruu389ru9",
+	},
+	{
+		Name:       "no file extension",
+		Filename:   "rob/ubuntu-next_839ruu389ru9",
+		Collection: "rob",
+		Slug:       "ubuntu-next",
+		ID:         "839ruu389ru9",
+	},
+	{
+		Name:       "no collection",
+		Filename:   "ubuntu-next_839ruu389ru9.txt",
+		Collection: "",
+		Slug:       "ubuntu-next",
+		ID:         "839ruu389ru9",
+	},
+	{
+		Name:       "ID only",
+		Filename:   "839ruu389ru9.txt",
+		Collection: "",
+		Slug:       "",
+		ID:         "839ruu389ru9",
+	},
+	{
+		Name:       "collection and ID only",
+		Filename:   "rob/839ruu389ru9.txt",
+		Collection: "rob",
+		Slug:       "",
+		ID:         "839ruu389ru9",
+	},
+}
+
 func TestFromZip(t *testing.T) {
 	a := getTestZip(t, files)
 	posts, err := FromZip(a)
@@ -46,20 +90,6 @@ func TestFromZip(t *testing.T) {
 	}
 	// TODO: add check for contents, needs to update test file data above for
 	// easier comparison
-}
-
-func TestTextFileZipFunc(t *testing.T) {
-	a := getTestZip(t, files)
-	posts, err := FromZipByFunc(a, TextFileZipFunc)
-	if err != nil {
-		t.Fatalf("failed to get posts from archive: %v", err)
-	}
-	if posts == nil {
-		t.Fatal("Posts was nil, expecting posts returned")
-	}
-	if len(posts) != 2 { // should only be the number of files in top level, .txt
-		t.Fatalf("Post count mismatch: got %d but expected %d", len(posts), 2)
-	}
 }
 
 func TestFromZipDirs(t *testing.T) {
@@ -126,4 +156,35 @@ func getTestZip(t *testing.T, files fileList) string {
 	}
 
 	return file.Name()
+}
+
+func TestTextFileZipFunc(t *testing.T) {
+	a := getTestZip(t, files)
+	posts, err := FromZipByFunc(a, TextFileZipFunc)
+	if err != nil {
+		t.Fatalf("failed to get posts from archive: %v", err)
+	}
+	if posts == nil {
+		t.Fatal("Posts was nil, expecting posts returned")
+	}
+	if len(posts) != 2 { // should only be the number of files in top level, .txt
+		t.Fatalf("Post count mismatch: got %d but expected %d", len(posts), 2)
+	}
+}
+
+func TestFilenameParts(t *testing.T) {
+	for _, tc := range filenames {
+		t.Run(tc.Name, func(t *testing.T) {
+			id, slug, coll := filenameParts(tc.Filename)
+			if id != tc.ID {
+				t.Fatalf("Got ID '%s' but expected '%s'", id, tc.ID)
+			}
+			if slug != tc.Slug {
+				t.Fatalf("Got slug '%s' but expected '%s'", slug, tc.Slug)
+			}
+			if coll != tc.Collection {
+				t.Fatalf("Got collection '%s' but expected '%s'", coll, tc.Collection)
+			}
+		})
+	}
 }
